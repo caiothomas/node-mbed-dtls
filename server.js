@@ -91,7 +91,7 @@ class DtlsServer extends EventEmitter {
 
   _debug() {
     if (this.options.debug) {
-      console.log(...arguments);
+     // console.log(...arguments);
     }
   }
 
@@ -237,16 +237,19 @@ class DtlsServer extends EventEmitter {
     if (this.dgramSocket) {
       this.dgramSocket.removeListener('message', this._onMessage);
     }
-    const sockets = Object.keys(this.sockets);
-    sockets.forEach(skey => {
-      const s = this.sockets[skey];
-      if (s) {
-        s.end();
-      }
-    });
-
-    if (sockets.length === 0) {
-      this._closeSocket();
+    if(this.sockets){
+      const sockets = Object.keys(this.sockets);
+      sockets.forEach(skey => {
+        const s = this.sockets[skey];
+        if (s) {
+          s.end();
+        }
+      });
+      
+      if (sockets.length === 0) {
+        this.sockets = null;
+        this._closeSocket();
+      }       
     }
   }
 
@@ -257,7 +260,7 @@ class DtlsServer extends EventEmitter {
     }
     this.dgramSocket = null;
     this._endSockets();
-    this.sockets = {};
+    this.sockets = null;
 
     this.emit('close');
     this.removeAllListeners();
@@ -270,7 +273,6 @@ class DtlsServer extends EventEmitter {
       });
       return;
     }
-
     if (this.dgramSocket) {
       this.dgramSocket.close();
     }
