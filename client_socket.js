@@ -61,6 +61,7 @@ class DtlsClientSocket extends stream.Duplex {
 
     this.send = function(msg, offset, length, port, host, callback) {
       this.mbedSocket.send(msg);
+      callback(null);
     }
 
     process.nextTick(() => {
@@ -117,6 +118,7 @@ class DtlsClientSocket extends stream.Duplex {
       });
       return;
     }
+          console.log("remotePort ",this.remotePort)
 
     this.dgramSocket.send(msg, 0, msg.length, this.remotePort, this.remoteAddress, sendFinished);
   }
@@ -178,6 +180,10 @@ class DtlsClientSocket extends stream.Duplex {
     this.dgramSocket.close();
   }
 
+  close(){
+    //this._closeSocket();
+  }
+  
   _socketClosed() {
     this.dgramSocket = null;
     this.emit('close', this._hadError);
