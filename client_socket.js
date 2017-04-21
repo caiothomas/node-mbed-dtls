@@ -118,7 +118,6 @@ class DtlsClientSocket extends stream.Duplex {
       });
       return;
     }
-          console.log("remotePort ",this.remotePort)
 
     this.dgramSocket.send(msg, 0, msg.length, this.remotePort, this.remoteAddress, sendFinished);
   }
