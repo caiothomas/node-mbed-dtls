@@ -1,4 +1,3 @@
 #!/bin/bash
 rm mbedtls -rf
-git clone https://github.com/ARMmbed/mbedtls.git mbedtls-2.6
-
+git clone https://github.com/ARMmbed/mbedtls.git mbedtls
